@@ -1,8 +1,9 @@
-import { handlePayloadRequest } from '@payloadcms/next/routes'
+import { REST_GET, REST_POST, REST_DELETE, REST_OPTIONS, REST_PATCH, REST_PUT } from '@payloadcms/next/routes'
 import configPromise from '@payload-config'
 
-export const GET = (req: Request) => handlePayloadRequest(req, configPromise)
-export const POST = (req: Request) => handlePayloadRequest(req, configPromise)
-export const PUT = (req: Request) => handlePayloadRequest(req, configPromise)
-export const PATCH = (req: Request) => handlePayloadRequest(req, configPromise)
-export const DELETE = (req: Request) => handlePayloadRequest(req, configPromise)
+export const GET = REST_GET(configPromise)
+export const POST = REST_POST(configPromise)
+export const DELETE = REST_DELETE(configPromise)
+export const OPTIONS = REST_OPTIONS(configPromise)
+export const PATCH = REST_PATCH(configPromise)
+export const PUT = REST_PUT(configPromise)
