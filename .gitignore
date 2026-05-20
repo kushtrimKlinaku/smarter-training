@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Custom ignores
+cms.db
+ffmpeg.zip
+ffmpeg-folder/
+.agent/
+_data/
