@@ -107,11 +107,11 @@ function ProgramsSection() {
       </div>
 
       {/* Swiper Container */}
-      <div className="w-full relative max-w-[1600px] mx-auto px-4 sm:px-8">
+      <div className="w-full relative max-w-[100vw] mx-auto overflow-hidden pb-12">
         <Swiper
           modules={[Autoplay, Pagination]}
           onSwiper={setSwiperInstance}
-          slidesPerView={1.15}
+          slidesPerView="auto"
           centeredSlides={true}
           spaceBetween={24}
           loop={true}
@@ -127,47 +127,45 @@ function ProgramsSection() {
               return `<button class="${className} px-4 py-2 rounded-none text-[14px] md:text-[15px] transition-all duration-300 text-white/60 hover:text-white hover:bg-white/10">${programsData[index].title}</button>`;
             },
           }}
-          breakpoints={{
-            640: { slidesPerView: 1.3, spaceBetween: 24 },
-            1024: { slidesPerView: 1.5, spaceBetween: 32 },
-            1280: { slidesPerView: 1.6, spaceBetween: 40 },
-          }}
           className="kajabi-swiper"
         >
           {programsData.map((program) => (
-            <SwiperSlide key={program.id} className="transition-all duration-500 ease-in-out">
+            <SwiperSlide key={program.id} className="transition-all duration-500 ease-in-out w-[90vw] lg:w-[1184px]">
               {({ isActive }) => (
                 <div 
-                  className={`relative w-full aspect-[4/5] sm:aspect-[16/10] md:aspect-[21/9] rounded-2xl overflow-hidden bg-[#1A1A1A] transition-all duration-500 ease-in-out ${
+                  className={`relative w-full h-[500px] md:h-[666px] rounded-2xl overflow-hidden bg-[#1A1A1A] transition-all duration-500 ease-in-out ${
                     isActive ? "opacity-100 scale-100" : "opacity-40 scale-[0.97]"
                   }`}
                 >
-                  {/* Background Image (Kajabi style colorful) */}
+                  {/* Background Image */}
                   <img
                     src={program.image}
                     alt={program.title}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                   
-                  {/* Left Content Box (White Box over Image like Kajabi) */}
+                  {/* Dark gradient on the left side for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+                  
+                  {/* Left Content (Text directly on image, no white box) */}
                   {isActive && (
                     <motion.div 
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.2, duration: 0.5 }}
-                      className="absolute left-4 sm:left-8 md:left-12 lg:left-16 top-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-xl shadow-2xl max-w-[400px] z-10"
+                      className="absolute left-6 sm:left-12 md:left-16 top-1/2 -translate-y-1/2 max-w-[420px] z-10"
                     >
-                      <h3 className="text-2xl md:text-3xl font-bold text-[#1A1A1A] mb-3 tracking-tight">
+                      <h3 className="text-3xl md:text-4xl lg:text-[42px] font-bold text-white mb-4 tracking-[-0.02em] leading-[1.1]">
                         {program.title}
                       </h3>
-                      <p className="text-[15px] md:text-[16px] text-[#6B6B6B] mb-8 leading-[1.6]">
+                      <p className="text-[16px] md:text-[18px] text-white/90 mb-8 leading-[1.6]">
                         {program.description}
                       </p>
                       <Link 
                         href={program.link} 
-                        className="inline-flex items-center justify-center bg-[#2D4A3E] text-white px-6 py-3 rounded-none text-[15px] font-semibold hover:bg-[#1f332a] transition-colors w-full"
+                        className="inline-flex items-center justify-center bg-white text-black px-8 py-3.5 text-[15px] font-bold hover:bg-[#E8845A] hover:text-white transition-colors"
                       >
-                        Mëso më shumë
+                        Learn More
                       </Link>
                     </motion.div>
                   )}
@@ -193,7 +191,12 @@ function ProgramsSection() {
           font-weight: 500;
         }
         .kajabi-swiper .swiper-slide {
-          height: auto;
+          width: 90vw;
+        }
+        @media (min-width: 1024px) {
+          .kajabi-swiper .swiper-slide {
+            width: 1184px;
+          }
         }
       `}} />
     </section>
