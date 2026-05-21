@@ -1,7 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState } from "react";
 import Link from "next/link";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Swiper as SwiperType } from 'swiper';
 import { motion } from "motion/react";
 import {
   ArrowRight,
@@ -21,7 +26,7 @@ import HeroSection from "@/components/HeroSection";
 import ProgramsHorizontalScroll from "@/components/ProgramsHorizontalScroll";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 
 /* ─── Animation Variants ─── */
 const fadeInUp = {
@@ -79,35 +84,11 @@ const programsData = [
 ];
 
 function ProgramsSection() {
-  const [activeTab, setActiveTab] = React.useState(0);
-  const darkSectionRef = useRef<HTMLElement>(null);
-  const parallaxImgRefs = useRef<(HTMLImageElement | null)[]>([]);
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const ctx = gsap.context(() => {
-      parallaxImgRefs.current.forEach((img) => {
-        if (!img) return;
-        gsap.to(img, {
-          yPercent: -20,
-          ease: "none",
-          scrollTrigger: {
-            trigger: darkSectionRef.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
-          },
-        });
-      });
-    }, darkSectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
+  const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
+  
   return (
-    <section ref={darkSectionRef} className="bg-[#0A0A0A] pt-24 pb-32 overflow-hidden">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
+    <section className="bg-[#0A0A0A] pt-24 pb-32 overflow-hidden flex flex-col items-center">
+      <div className="max-w-[1200px] w-full px-6 lg:px-8">
         <div className="text-center mb-12">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
@@ -119,84 +100,102 @@ function ProgramsSection() {
           </motion.h2>
         </div>
 
-        {/* Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-1 md:gap-2 mb-12">
-          {programsData.map((program, idx) => (
-            <button
-              key={program.id}
-              onClick={() => setActiveTab(idx)}
-              className={`px-4 py-2 rounded-none text-[14px] md:text-[15px] transition-all duration-300 ${
-                activeTab === idx 
-                  ? "bg-[#2D4A3E] text-white font-medium" 
-                  : "text-white/60 hover:text-white hover:bg-white/10"
-              }`}
-            >
-              {program.title}
-            </button>
-          ))}
-        </div>
-
-        {/* Content Area */}
-        <div className="relative w-full aspect-[4/5] sm:aspect-[16/10] md:aspect-[21/9] rounded-2xl overflow-hidden bg-[#1A1A1A]">
-          {programsData.map((program, idx) => (
-            <motion.div
-              key={program.id}
-              initial={false}
-              animate={{ 
-                opacity: activeTab === idx ? 1 : 0,
-                zIndex: activeTab === idx ? 10 : 0,
-                scale: activeTab === idx ? 1 : 1.05
-              }}
-              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
-              className="absolute inset-0 w-full h-full flex items-center"
-              style={{ pointerEvents: activeTab === idx ? "auto" : "none" }}
-            >
-              {/* Background Image */}
-              <div className="absolute inset-0 overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  ref={(el) => { parallaxImgRefs.current[idx] = el; }}
-                  src={program.image}
-                  alt={program.title}
-                  className="hero-dark-img w-full h-[130%] object-cover opacity-50 will-change-transform"
-                  style={{ top: "-15%" }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A]/90 to-transparent" />
-              </div>
-
-              {/* Text Content inside the slide */}
-              <div className="relative z-10 p-8 md:p-16 max-w-[600px]">
-                <motion.h3 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: activeTab === idx ? 1 : 0, y: activeTab === idx ? 0 : 20 }}
-                  transition={{ delay: 0.1, duration: 0.5 }}
-                  className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-[-0.02em]"
-                >
-                  {program.title}
-                </motion.h3>
-                <motion.p 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: activeTab === idx ? 1 : 0, y: activeTab === idx ? 0 : 20 }}
-                  transition={{ delay: 0.2, duration: 0.5 }}
-                  className="text-[17px] text-white/80 mb-8 leading-[1.6]"
-                >
-                  {program.description}
-                </motion.p>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: activeTab === idx ? 1 : 0, y: activeTab === idx ? 0 : 20 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                >
-                  <Link href={program.link} className="bg-white text-black px-6 py-3 rounded-none text-[15px] font-semibold hover:bg-[#E8845A] hover:text-white transition-colors inline-flex items-center gap-2">
-                    Mëso më shumë
-                  </Link>
-                </motion.div>
-              </div>
-            </motion.div>
-          ))}
+        {/* Custom Pagination Menu */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-12 custom-kajabi-pagination">
+          {/* Pagination bullets will be rendered here by Swiper */}
         </div>
       </div>
+
+      {/* Swiper Container */}
+      <div className="w-full relative max-w-[1600px] mx-auto px-4 sm:px-8">
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          onSwiper={setSwiperInstance}
+          slidesPerView={1.15}
+          centeredSlides={true}
+          spaceBetween={24}
+          loop={true}
+          speed={600}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            el: '.custom-kajabi-pagination',
+            clickable: true,
+            renderBullet: (index, className) => {
+              return `<button class="${className} px-4 py-2 rounded-none text-[14px] md:text-[15px] transition-all duration-300 text-white/60 hover:text-white hover:bg-white/10">${programsData[index].title}</button>`;
+            },
+          }}
+          breakpoints={{
+            640: { slidesPerView: 1.3, spaceBetween: 24 },
+            1024: { slidesPerView: 1.5, spaceBetween: 32 },
+            1280: { slidesPerView: 1.6, spaceBetween: 40 },
+          }}
+          className="kajabi-swiper"
+        >
+          {programsData.map((program) => (
+            <SwiperSlide key={program.id} className="transition-all duration-500 ease-in-out">
+              {({ isActive }) => (
+                <div 
+                  className={`relative w-full aspect-[4/5] sm:aspect-[16/10] md:aspect-[21/9] rounded-2xl overflow-hidden bg-[#1A1A1A] transition-all duration-500 ease-in-out ${
+                    isActive ? "opacity-100 scale-100" : "opacity-40 scale-[0.97]"
+                  }`}
+                >
+                  {/* Background Image (Kajabi style colorful) */}
+                  <img
+                    src={program.image}
+                    alt={program.title}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  
+                  {/* Left Content Box (White Box over Image like Kajabi) */}
+                  {isActive && (
+                    <motion.div 
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.2, duration: 0.5 }}
+                      className="absolute left-4 sm:left-8 md:left-12 lg:left-16 top-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-xl shadow-2xl max-w-[400px] z-10"
+                    >
+                      <h3 className="text-2xl md:text-3xl font-bold text-[#1A1A1A] mb-3 tracking-tight">
+                        {program.title}
+                      </h3>
+                      <p className="text-[15px] md:text-[16px] text-[#6B6B6B] mb-8 leading-[1.6]">
+                        {program.description}
+                      </p>
+                      <Link 
+                        href={program.link} 
+                        className="inline-flex items-center justify-center bg-[#2D4A3E] text-white px-6 py-3 rounded-none text-[15px] font-semibold hover:bg-[#1f332a] transition-colors w-full"
+                      >
+                        Mëso më shumë
+                      </Link>
+                    </motion.div>
+                  )}
+                </div>
+              )}
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+
+      <style dangerouslySetInnerHTML={{__html: `
+        .custom-kajabi-pagination .swiper-pagination-bullet {
+          background: transparent;
+          opacity: 1;
+          width: auto;
+          height: auto;
+          border-radius: 0;
+          margin: 0 !important;
+        }
+        .custom-kajabi-pagination .swiper-pagination-bullet-active {
+          background: #2D4A3E !important;
+          color: white !important;
+          font-weight: 500;
+        }
+        .kajabi-swiper .swiper-slide {
+          height: auto;
+        }
+      `}} />
     </section>
   );
 }
