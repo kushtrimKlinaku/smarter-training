@@ -83,9 +83,30 @@ const programsData = [
   },
 ];
 
-function ProgramsSection() {
+function ProgramsSection({ homepageContent }: { homepageContent: any }) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
-  
+
+  // Merge CMS content with hardcoded image/link data
+  const imageMap: Record<string, string> = {
+    trajnime: '/images/programs/Arben Salihu-1.png',
+    coaching: '/images/programs/Arben Salihu-2.png',
+    rekreacion: '/images/programs/Arben Salihu.png',
+    matje: '/images/programs/sales.png',
+    manuale: '/images/programs/in_house.png',
+  };
+
+  const cmsServices = homepageContent?.services;
+  const sectionTitle = cmsServices?.title ?? 'Shërbimet';
+  const sectionSubtitle =
+    cmsServices?.subtitle ??
+    'Përfitoni në disa fusha. Çfarëdo qofshin nevojat e biznesit tuaj, shërbimet tona dhe përvoja shumë vjeçare u vijnë në ndihmë.';
+
+  const resolvedPrograms = (cmsServices?.items ?? programsData).map((item: any) => ({
+    ...item,
+    image: imageMap[item.id] ?? programsData.find((p) => p.id === item.id)?.image ?? '',
+    link: '/services',
+  }));
+
   return (
     <section className="bg-[#0A0A0A] pt-24 pb-32 overflow-hidden flex flex-col items-center">
       <div className="max-w-[1200px] w-full px-6 lg:px-8">
@@ -96,7 +117,7 @@ function ProgramsSection() {
             viewport={{ once: true }}
             className="text-[clamp(32px,4vw,48px)] font-bold text-white tracking-[-0.02em] uppercase"
           >
-            Shërbimet
+            {sectionTitle}
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -105,7 +126,7 @@ function ProgramsSection() {
             transition={{ delay: 0.1 }}
             className="mt-4 text-[16px] md:text-[18px] text-[#A0988A] max-w-[600px] mx-auto leading-[1.6]"
           >
-            Përfitoni në disa fusha. Çfarëdo qofshin nevojat e biznesit tuaj, shërbimet tona dhe përvoja shumë vjeçare u vijnë në ndihmë.
+            {sectionSubtitle}
           </motion.p>
         </div>
 
@@ -133,12 +154,12 @@ function ProgramsSection() {
             el: '.custom-kajabi-pagination',
             clickable: true,
             renderBullet: (index, className) => {
-              return `<button class="${className}">${programsData[index].title}</button>`;
+              return `<button class="${className}">${resolvedPrograms[index]?.title ?? ''}</button>`;
             },
           }}
           className="kajabi-swiper"
         >
-          {programsData.map((program) => (
+          {resolvedPrograms.map((program: any) => (
             <SwiperSlide key={program.id} className="transition-all duration-500 ease-in-out w-[90vw] lg:w-[1184px]">
               {({ isActive }) => (
                 <div 
@@ -515,12 +536,12 @@ function CTASection() {
 /* ═══════════════════════════════════════════
    HOME PAGE EXPORT
    ═══════════════════════════════════════════ */
-export default function HomePageClient({ initialPrograms }: { initialPrograms: any[] }) {
+export default function HomePageClient({ initialPrograms, homepageContent }: { initialPrograms: any[]; homepageContent: any }) {
   return (
     <>
       <HeroSection />
       <ProgramsHorizontalScroll initialPrograms={initialPrograms} />
-      <ProgramsSection />
+      <ProgramsSection homepageContent={homepageContent} />
       <LeadershipSection />
       <SkillsSection />
       <DigitalSection />

@@ -8,7 +8,8 @@ import {
   GraduationCap, 
   Megaphone, 
   LogOut,
-  Settings
+  Settings,
+  Home
 } from 'lucide-react';
 
 const navigation = [
@@ -16,6 +17,7 @@ const navigation = [
   { name: 'Trajnimet', href: '/admin/trainings', icon: BookOpen },
   { name: 'Programet', href: '/admin/programs', icon: GraduationCap },
   { name: 'Njoftime', href: '/admin/announcements', icon: Megaphone },
+  { name: 'Home Page', href: '/admin/homepage', icon: Home },
 ];
 
 export function Sidebar() {

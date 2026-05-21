@@ -1,0 +1,33 @@
+{
+  "services": {
+    "title": "Shërbimet",
+    "subtitle": "Përfitoni në disa fusha. Çfarëdo qofshin nevojat e biznesit tuaj, shërbimet tona dhe përvoja shumë vjeçare u vijnë në ndihmë.",
+    "items": [
+      {
+        "id": "trajnime",
+        "title": "Trajnime",
+        "description": "Trajnime që i shërbejnë rritjes dhe zhvillimit të entiteteve.\n\n• Mbi 70 programe tashmë të vlerësuara\n• Zhvillim të trajnimeve për nevoja specifike\n• Matje para dhe pas trajnimit"
+      },
+      {
+        "id": "coaching",
+        "title": "Coaching",
+        "description": "Coaching ju mundëson të përgatisni stafin tuaj për sfida të reja, përmes qasjes individuale.\n\n• Coaching për nivel Ekzekutiv\n• Coaching për performansë\n• Coaching për jetë"
+      },
+      {
+        "id": "rekreacion",
+        "title": "Rekreacion",
+        "description": "Aktivitete Rekreative të kombinuara me zhvillim të shprehive për:\n\n• Forcim të ekipeve\n• Motivim të punonjësve\n• Socializime dhe ngjarje"
+      },
+      {
+        "id": "matje",
+        "title": "Matje e përforcim",
+        "description": "Matje për vlerësimin e gjendjes dhe përcaktimin e qasjes për intervenim.\n\n• Analizë të Nevojës për Trajnime\n• Përcjellje dhe matje të rezultateve pas trajnimit\n• Modeli KIRKPATRICK i adaptuar për tregun tonë"
+      },
+      {
+        "id": "manuale",
+        "title": "Manuale",
+        "description": "Përpilim i manualeve për:\n\n• Trajnime të brendshme\n• Udhëzime për ndryshime operacionale\n• Ndërtim të kurrikulave"
+      }
+    ]
+  }
+}

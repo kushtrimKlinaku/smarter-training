@@ -1,6 +1,8 @@
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import HomePageClient from "./HomePageClient";
+import fs from 'fs';
+import path from 'path';
 
 export const dynamic = 'force-dynamic'; // Ensures we fetch the latest CMS data
 
@@ -14,5 +16,16 @@ export default async function HomePage() {
     limit: 100, // Fetch up to 100 active programs for the home page
   });
 
-  return <HomePageClient initialPrograms={programs} />;
+  // Read homepage CMS content from JSON file
+  let homepageContent: Record<string, unknown> = {};
+  try {
+    const homepageFile = path.join(process.cwd(), 'data', 'homepage.json');
+    if (fs.existsSync(homepageFile)) {
+      homepageContent = JSON.parse(fs.readFileSync(homepageFile, 'utf-8'));
+    }
+  } catch (err) {
+    console.error('Failed to read homepage.json:', err);
+  }
+
+  return <HomePageClient initialPrograms={programs} homepageContent={homepageContent} />;
 }
