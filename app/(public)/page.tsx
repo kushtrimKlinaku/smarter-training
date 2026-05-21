@@ -16,15 +16,25 @@ export default async function HomePage() {
     limit: 100, // Fetch up to 100 active programs for the home page
   });
 
-  // Read homepage CMS content from JSON file
+  // Read homepage CMS content from DB
   let homepageContent: Record<string, unknown> = {};
   try {
-    const homepageFile = path.join(process.cwd(), 'data', 'homepage.json');
-    if (fs.existsSync(homepageFile)) {
-      homepageContent = JSON.parse(fs.readFileSync(homepageFile, 'utf-8'));
+    const { Pool } = await import('pg');
+    const pool = new Pool({
+      connectionString: process.env.DATABASE_URI,
+      ssl: { rejectUnauthorized: false }
+    });
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT value FROM custom_cms_settings WHERE key = $1', ['homepage']);
+      if (result.rows.length > 0) {
+        homepageContent = result.rows[0].value;
+      }
+    } finally {
+      client.release();
     }
   } catch (err) {
-    console.error('Failed to read homepage.json:', err);
+    console.error('Failed to read homepage from DB:', err);
   }
 
   return <HomePageClient initialPrograms={programs} homepageContent={homepageContent} />;

@@ -1,15 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { Pool } from 'pg';
 
-const HOMEPAGE_FILE = path.join(process.cwd(), 'data', 'homepage.json');
-
-function ensureDataDir() {
-  const dir = path.join(process.cwd(), 'data');
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-}
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URI,
+  ssl: { rejectUnauthorized: false }
+});
 
 const DEFAULT_CONTENT = {
   services: {
@@ -25,30 +20,51 @@ const DEFAULT_CONTENT = {
   },
 };
 
+async function initDB() {
+  const client = await pool.connect();
+  try {
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS custom_cms_settings (
+        key VARCHAR(255) PRIMARY KEY,
+        value JSONB NOT NULL
+      );
+    `);
+  } finally {
+    client.release();
+  }
+}
+
 export async function GET() {
   try {
-    ensureDataDir();
-    if (!fs.existsSync(HOMEPAGE_FILE)) {
-      // Return defaults if file doesn't exist yet
+    await initDB();
+    const result = await pool.query('SELECT value FROM custom_cms_settings WHERE key = $1', ['homepage']);
+    
+    if (result.rows.length === 0) {
       return NextResponse.json(DEFAULT_CONTENT);
     }
-    const raw = fs.readFileSync(HOMEPAGE_FILE, 'utf-8');
-    const data = JSON.parse(raw);
-    return NextResponse.json(data);
+    
+    return NextResponse.json(result.rows[0].value);
   } catch (error) {
-    console.error('Error reading homepage.json:', error);
-    return NextResponse.json({ error: 'Failed to read homepage data' }, { status: 500 });
+    console.error('Error reading homepage from DB:', error);
+    // Fallback to default if DB fails
+    return NextResponse.json(DEFAULT_CONTENT);
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    ensureDataDir();
+    await initDB();
     const body = await request.json();
-    fs.writeFileSync(HOMEPAGE_FILE, JSON.stringify(body, null, 2), 'utf-8');
+    
+    await pool.query(`
+      INSERT INTO custom_cms_settings (key, value) 
+      VALUES ($1, $2)
+      ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value
+    `, ['homepage', JSON.stringify(body)]);
+    
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error writing homepage.json:', error);
+    console.error('Error writing homepage to DB:', error);
     return NextResponse.json({ error: 'Failed to save homepage data' }, { status: 500 });
   }
 }
