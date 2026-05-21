@@ -1,0 +1,111 @@
+import {
+  Briefcase,
+  Users,
+  PenTool,
+  TrendingUp,
+  MonitorSmartphone,
+  Star,
+  CheckCircle,
+} from "lucide-react";
+
+export type ProgramCategory = {
+  id: string;
+  name: string;
+  icon: any;
+};
+
+export type ProgramItem = {
+  id: string;
+  categoryId: string;
+  title: string;
+  shortDescription: string;
+  description: string;
+  benefits: string[];
+  image: string;
+};
+
+export const programCategories: ProgramCategory[] = [
+  { id: "lidership", name: "Lidership Dhe Biznes", icon: Briefcase },
+  { id: "kreativitet", name: "Kreativitet Dhe Dizajn", icon: PenTool },
+  { id: "personal", name: "Zhvillim Personal", icon: Star },
+  { id: "shitje", name: "Shitje Dhe Shërbime", icon: TrendingUp },
+  { id: "teknologji", name: "Teknologji", icon: MonitorSmartphone },
+];
+
+export const programItems: ProgramItem[] = [
+  {
+    id: "p1",
+    categoryId: "lidership",
+    title: "Menaxhim i Talentëve",
+    shortDescription: "Investim thelbësor për çdo kompani që synon suksesin afatgjatë.",
+    description:
+      "Menaxhimi i talentëve është një investim thelbësor për çdo kompani që synon suksesin afatgjatë. Në këtë punëtori, do të shqyrtojmë strategjitë dhe praktikat më të mira për të identifikuar, përhapur, dhe ruajtur talentin në organizatë.",
+    benefits: [
+      "Zhvillimi i njohurive dhe aftësive për të menaxhuar talentin dhe për të krijuar një fuqi punëtore të aftë e të motivuar.",
+      "Kuptimi i rëndësisë së rekrutimit të talentëve dhe strategjitë për të siguruar dhe mbajtur talentin më të mirë.",
+      "Përdorimi i menaxhimit të talentëve si mjet për të përmirësuar kursimin dhe produktivitetin në organizatë.",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
+  },
+  {
+    id: "p2",
+    categoryId: "lidership",
+    title: "Lidership dhe Ndikim",
+    shortDescription: "Mësoni si të frymëzoni dhe drejtoni ekipet drejt suksesit.",
+    description:
+      "Lidershipi dhe Ndikimi është thelbësor për krijimin e një vizioni dhe për të shtyrë përpara ekipin. Ky program ofron teknika praktike për rritjen e influencës tuaj natyrale pa përdorur autoritet detyrues.",
+    benefits: [
+      "Rritja e vetëbesimit komunikues.",
+      "Mënyrat për të ndërtuar besueshmëri afatgjatë te vartësit.",
+      "Teknikat e zgjidhjes efikase të konflikteve inter-personale.",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
+  },
+  {
+    id: "p3",
+    categoryId: "lidership",
+    title: "Ngritje dhe Udhëheqje e Ekipeve Virtuale",
+    shortDescription: "Drejtimi efektiv në epokën e punës në distancë.",
+    description:
+      "Puna në distancë kërkon qasje dhe mjete të reja të lidershipit. Kjo punëtori fokusohet në mënyrën se si të mbajmë ekipet virtuale të angazhuara dhe produktive pavarësisht distancës gjeografike.",
+    benefits: [
+      "Mbajtja e angazhimit dhe moralit të lartë në distance.",
+      "Përmirësimi i komunikimit asinkron.",
+      "Menaxhimi i projekteve bazuar në rezultate e jo në orar.",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070&auto=format&fit=crop",
+  },
+  {
+    id: "p4",
+    categoryId: "kreativitet",
+    title: "Design Thinking Framework",
+    shortDescription: "Zgjidhja inovative e problemeve komplekse.",
+    description:
+      "Mësoni hapat thelbësorë të Design Thinking (Empathize, Define, Ideate, Prototype, Test) për të gjetur zgjidhje novatore të fokusuara rreth përdoruesit përfundimtar.",
+    benefits: [
+      "Metodologji e vërtetuar botërisht për inovacion.",
+      "Rritja e kreativitetit në grup.",
+      "Minimizimi i rreziqeve para lansimit.",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=2070&auto=format&fit=crop",
+  },
+  {
+    id: "p5",
+    categoryId: "shitje",
+    title: "Teknikat e Bindjes dhe Negocimit",
+    shortDescription: "Shitje konsultative dhe negocim me situata komplekse.",
+    description:
+      "Zbulo psikologjinë prapa vendimeve të blerjes dhe transformo qasjen tënde ndaj klientit përmes teknikave bashkëkohore të komunikimit B2B.",
+    benefits: [
+      "Mbyllje më e shpejtë e marrëveshjeve të mëdha.",
+      "Ndërtimi i marrëdhënieve B2B trust-first.",
+      "Menaxhimi i kundërshtimeve më të zakonshme nga blerësit.",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=2074&auto=format&fit=crop",
+  },
+];
