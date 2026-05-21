@@ -124,7 +124,7 @@ function ProgramsSection() {
             el: '.custom-kajabi-pagination',
             clickable: true,
             renderBullet: (index, className) => {
-              return `<button class="${className} px-4 py-2 rounded-none text-[14px] md:text-[15px] transition-all duration-300 text-white/60 hover:text-white hover:bg-white/10">${programsData[index].title}</button>`;
+              return `<button class="${className} px-6 py-2.5 text-[15px] border border-[#1A1A1A] text-[#A0988A] bg-transparent transition-all duration-300 hover:text-white">${programsData[index].title}</button>`;
             },
           }}
           className="kajabi-swiper"
@@ -177,6 +177,9 @@ function ProgramsSection() {
       </div>
 
       <style dangerouslySetInnerHTML={{__html: `
+        .custom-kajabi-pagination {
+          gap: 8px;
+        }
         .custom-kajabi-pagination .swiper-pagination-bullet {
           background: transparent;
           opacity: 1;
@@ -186,7 +189,8 @@ function ProgramsSection() {
           margin: 0 !important;
         }
         .custom-kajabi-pagination .swiper-pagination-bullet-active {
-          background: #2D4A3E !important;
+          background: #1A1A1A !important;
+          border-color: #404040 !important;
           color: white !important;
           font-weight: 500;
         }
