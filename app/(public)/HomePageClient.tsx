@@ -47,39 +47,39 @@ const staggerContainer = {
    ═══════════════════════════════════════════ */
 const programsData = [
   {
-    id: "soft-skills",
-    title: "Soft Skills",
+    id: "trajnime",
+    title: "Trajnime",
     image: "/images/programs/soft_skills.png",
-    description: "Zhvilloni aftësitë e komunikimit dhe bashkëpunimit për të krijuar një ambient pune më produktiv.",
-    link: "/soft-skills-academy",
-  },
-  {
-    id: "leadership",
-    title: "Lidership",
-    image: "/images/programs/leadership.png",
-    description: "Ndërtoni liderët e së ardhmes përmes programeve tona të lidershipit transformues.",
+    description: "Trajnime që i shërbejnë rritjes dhe zhvillimit të entiteteve.\n\n• Mbi 70 programe tashmë të vlerësuara\n• Zhvillim të trajnimeve për nevoja specifike\n• Matje para dhe pas trajnimit",
     link: "/services",
   },
   {
     id: "coaching",
     title: "Coaching",
     image: "/images/programs/coaching.png",
-    description: "Sesione 1-on-1 për të zbuluar dhe maksimizuar potencialin e secilit individ.",
+    description: "Coaching ju mundëson të përgatisni stafin tuaj për sfida të reja, përmes qasjes individuale.\n\n• Coaching për nivel Ekzekutiv\n• Coaching për performansë\n• Coaching për jetë",
     link: "/services",
   },
   {
-    id: "sales",
-    title: "Shitje & B2B",
+    id: "rekreacion",
+    title: "Rekreacion",
+    image: "/images/programs/leadership.png",
+    description: "Aktivitete Rekreative të kombinuara me zhvillim të shprehive për:\n\n• Forcim të ekipeve\n• Motivim të punonjësve\n• Socializime dhe ngjarje",
+    link: "/services",
+  },
+  {
+    id: "matje",
+    title: "Matje e përforcim",
     image: "/images/programs/sales.png",
-    description: "Teknikat e bindjes dhe ndikimit për të rritur fitimet dhe mbyllur marrëveshje.",
+    description: "Matje për vlerësimin e gjendjes dhe përcaktimin e qasjes për intervenim.\n\n• Analizë të Nevojës për Trajnime\n• Përcjellje dhe matje të rezultateve pas trajnimit\n• Modeli KIRKPATRICK i adaptuar për tregun tonë",
     link: "/services",
   },
   {
-    id: "in-house",
-    title: "Trajnime In-house",
+    id: "manuale",
+    title: "Manuale",
     image: "/images/programs/in_house.png",
-    description: "Programe të personalizuara që mbahen direkt në ambientet e kompanisë suaj.",
-    link: "/contact",
+    description: "Përpilim i manualeve për:\n\n• Trajnime të brendshme\n• Udhëzime për ndryshime operacionale\n• Ndërtim të kurrikulave",
+    link: "/services",
   },
 ];
 
@@ -94,10 +94,19 @@ function ProgramsSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-[clamp(32px,4vw,48px)] font-bold text-white tracking-[-0.02em]"
+            className="text-[clamp(32px,4vw,48px)] font-bold text-white tracking-[-0.02em] uppercase"
           >
-            Zgjidhni si dëshironi të zhvilloheni
+            Shërbimet
           </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="mt-4 text-[16px] md:text-[18px] text-[#A0988A] max-w-[600px] mx-auto leading-[1.6]"
+          >
+            Përfitoni në disa fusha. Çfarëdo qofshin nevojat e biznesit tuaj, shërbimet tona dhe përvoja shumë vjeçare u vijnë në ndihmë.
+          </motion.p>
         </div>
 
         {/* Custom Pagination Menu */}
@@ -144,8 +153,11 @@ function ProgramsSection() {
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                   
+                  {/* Base dark overlay to make photos darker */}
+                  <div className="absolute inset-0 bg-black/40" />
+                  
                   {/* Dark gradient on the left side for text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-transparent" />
                   
                   {/* Left Content (Text directly on image, no white box) */}
                   {isActive && (
@@ -153,12 +165,12 @@ function ProgramsSection() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.2, duration: 0.5 }}
-                      className="absolute left-6 sm:left-12 md:left-16 top-1/2 -translate-y-1/2 max-w-[420px] z-10"
+                      className="absolute left-6 sm:left-12 md:left-16 top-1/2 -translate-y-1/2 max-w-[500px] z-10"
                     >
                       <h3 className="text-3xl md:text-4xl lg:text-[42px] font-bold text-white mb-4 tracking-[-0.02em] leading-[1.1]">
                         {program.title}
                       </h3>
-                      <p className="text-[16px] md:text-[18px] text-white/90 mb-8 leading-[1.6]">
+                      <p className="text-[16px] md:text-[18px] text-white/90 mb-8 leading-[1.6] whitespace-pre-line">
                         {program.description}
                       </p>
                       <Link 
