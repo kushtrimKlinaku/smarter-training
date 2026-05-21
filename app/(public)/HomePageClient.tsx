@@ -110,7 +110,7 @@ function ProgramsSection() {
         </div>
 
         {/* Custom Pagination Menu */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-12 custom-kajabi-pagination">
+        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-5 mb-12 custom-kajabi-pagination">
           {/* Pagination bullets will be rendered here by Swiper */}
         </div>
       </div>
@@ -133,7 +133,7 @@ function ProgramsSection() {
             el: '.custom-kajabi-pagination',
             clickable: true,
             renderBullet: (index, className) => {
-              return `<button class="${className} px-6 py-2.5 text-[15px] border border-[#1A1A1A] text-[#A0988A] bg-transparent transition-all duration-300 hover:text-white">${programsData[index].title}</button>`;
+              return `<button class="${className}">${programsData[index].title}</button>`;
             },
           }}
           className="kajabi-swiper"
@@ -189,22 +189,29 @@ function ProgramsSection() {
       </div>
 
       <style dangerouslySetInnerHTML={{__html: `
-        .custom-kajabi-pagination {
-          gap: 8px;
-        }
         .custom-kajabi-pagination .swiper-pagination-bullet {
-          background: transparent;
+          color: #A3A3A3;
+          line-height: 1;
+          font-weight: 500;
+          cursor: pointer;
+          border: 1px solid #000;
+          border-radius: 2px;
+          padding: 0.75rem 1rem;
+          transition: all 0.3s;
+          background-color: transparent;
           opacity: 1;
           width: auto;
           height: auto;
-          border-radius: 0;
           margin: 0 !important;
+          font-size: 15px;
+        }
+        .custom-kajabi-pagination .swiper-pagination-bullet:hover {
+          color: #FAFAFA;
         }
         .custom-kajabi-pagination .swiper-pagination-bullet-active {
-          background: #1A1A1A !important;
-          border-color: #404040 !important;
-          color: white !important;
-          font-weight: 500;
+          border-color: #262626 !important;
+          background-color: #171717 !important;
+          color: #FAFAFA !important;
         }
         .kajabi-swiper .swiper-slide {
           width: 90vw;
