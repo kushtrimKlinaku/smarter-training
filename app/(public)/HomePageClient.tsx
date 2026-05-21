@@ -86,8 +86,8 @@ const programsData = [
 function ProgramsSection({ homepageContent }: { homepageContent: any }) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
 
-  // Merge CMS content with hardcoded image/link data
-  const imageMap: Record<string, string> = {
+  // Merge CMS content with hardcoded fallback image/link data
+  const fallbackImageMap: Record<string, string> = {
     trajnime: '/images/programs/Arben Salihu-1.png',
     coaching: '/images/programs/Arben Salihu-2.png',
     rekreacion: '/images/programs/Arben Salihu.png',
@@ -103,7 +103,8 @@ function ProgramsSection({ homepageContent }: { homepageContent: any }) {
 
   const resolvedPrograms = (cmsServices?.items ?? programsData).map((item: any) => ({
     ...item,
-    image: imageMap[item.id] ?? programsData.find((p) => p.id === item.id)?.image ?? '',
+    // Use the image set in CMS, then fallback map, then programsData fallback
+    image: item.image || fallbackImageMap[item.id] || programsData.find((p) => p.id === item.id)?.image || '/images/programs/in_house.png',
     link: '/services',
   }));
 
